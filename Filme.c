@@ -3,18 +3,13 @@
 #include <string.h>
 
 #include "ListaDup.h"
+#include "Filme.h"
 
 //Conta quantos filmes tem para incremento automático do id.
 int numFilme = 1;
 
-typedef struct listaDup ListaDup;
-
-typedef struct filme {
-	int idFilme;
-	char nomeFilme[100];
-	int anoFilme;
-	ListaDup* seqFilme;
-} Filme;
+struct noDup;
+typedef struct filme Filme;
 
 Filme* leFilme() {
 	//Aloco espaço para um filme, fazendo um ponteiro de Filme, f, receber o endereço.

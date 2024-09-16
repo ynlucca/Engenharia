@@ -6,13 +6,13 @@
 
 typedef struct filme Filme; 
 
-typedef struct listaDup {
+typedef struct noDup {
 	Filme* info;
 	struct listaDup* prox;
 	struct listaDup* ant;
-} ListaDup;
+} NoDup;
 
-ListaDup* criarListaVazia() {
-	ListaDup* l = NULL;
+NoDup* criarListaVazia() {
+	NoDup* l = NULL;
 	return l;
 }

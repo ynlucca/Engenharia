@@ -3,7 +3,12 @@
 
 extern int numFilme;
 
-typedef struct filme Filme; 
+typedef struct filme {
+   int idFilme;
+   char nomeFilme[100];
+   int anoFilme;
+   struct noDup* seqFilme;
+} Filme;
 
 Filme* leFilme(); 
 
