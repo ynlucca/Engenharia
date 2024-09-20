@@ -6,7 +6,6 @@
 #include "ListaDesc.h"
 
 int main() {
-
    int escolha;
 
    do {
@@ -50,7 +49,6 @@ int main() {
          default:
             break;
       }
-
    } while (escolha >= 1 && escolha <= 10);
 
    return 0;
