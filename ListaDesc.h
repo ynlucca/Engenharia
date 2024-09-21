@@ -3,20 +3,27 @@
 
 #include "Filme.h"
 
-typedef struct filme Filme;
+typedef struct noDesc {
+   struct filme *info;
+   struct noDesc *prox;
+} NoDesc;
 
-typedef struct noDesc NoDesc;
+typedef struct descritor {
+   NoDesc *prim;
+   int n;
+   NoDesc *ult;
+} Descritor;
 
-typedef struct descritor Descritor;
+Descritor criarDescritor();
 
-Descritor criarLista();
+int estaVaziaDesc(Descritor *ld);
 
-int estaVazia(Descritor *ld);
+void inserirFilmeDesc(Descritor *ld);
 
-void inserirFilme(Descritor *ld);
+void alterarFilmeDesc(Descritor *ld, int id);
 
-void imprimirListaFilmes(Descritor* ld);
+void imprimirFilmesDesc(Descritor* ld);
 
-void removerFilme(Descritor *ld, Filme *f);
+void removerFilmeDesc(Descritor *ld, int id);
 
 #endif

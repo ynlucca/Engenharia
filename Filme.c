@@ -2,24 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Filme.h"
 #include "ListaDup.h"
+#include "Filme.h"
 
 //Conta quantos filmes tem para incremento automático do id.
 int numFilme = 1;
 
-struct noDup;
-
-typedef struct filme Filme;
-
 Filme* leFilme() {
    //Aloco espaço para um filme, fazendo um ponteiro de Filme, f, receber o endereço.
-   Filme* f = (Filme*) malloc(sizeof(Filme));
+   Filme *f = (Filme*) malloc(sizeof(Filme));
 
    //O id do filme recebe numFilme, e depois numFilme se altera.
    f->idFilme = numFilme;
    numFilme++;
-
+   
    //O ponteiro seqFilme recebe NULL.
    f->seqFilme = NULL;
 
@@ -29,7 +25,7 @@ Filme* leFilme() {
    scanf("%[^\n]", f->nomeFilme);
 
    //Recebendo o ano do filme.
-   printf("\nAno de lancamento do filme: ");
+   printf("Ano de lancamento do filme: ");
    setbuf(stdin, NULL);
    scanf("%d", &f->anoFilme);
 
@@ -43,19 +39,19 @@ int retornaAno(Filme* f) {
 
 void imprimeFilme(Filme* f) {
    //Abaixo, printo as informações requisitadas do filme.
-   printf("\nID: %d -- Nome: %s -- Ano: %d\n", f->idFilme, f->nomeFilme, f->anoFilme);
+   printf("ID: %d -- Nome: %s -- Ano: %d", f->idFilme, f->nomeFilme, f->anoFilme);
 }
 
 void alterarNome(Filme* f) {
    //Abaixo, altero as informações do novo filme.
-   printf("\nDigite o novo nome do filme: ");
+   printf("Digite o novo nome do filme: ");
    setbuf(stdin, NULL);
    scanf("%[^\n]", f->nomeFilme);
 }
 
 void alterarAno(Filme* f) {
    //Abaixo, altero as informações do ano de lançamento do filme.
-   printf("\nDigite o novo ano de lancamento do filme: ");
+   printf("Digite o novo ano de lancamento do filme: ");
    setbuf(stdin, NULL);
    scanf("%d", &f->anoFilme);
 }
