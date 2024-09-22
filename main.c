@@ -11,6 +11,8 @@ int main() {
    Descritor desc = criarDescritor();
 
    do {
+      system("clear");
+
       printf(
          "Trabalho de ED // Yan & Rafael\n"
          "[1] Inserir um novo filme\n"
@@ -73,9 +75,6 @@ int main() {
          default:
             break;
       }
-
-      system("clear");
-
    } while (escolha >= 1 && escolha < 10);
 
    return 0;

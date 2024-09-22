@@ -22,7 +22,7 @@ void inserirFilmeDup(struct descritor *ld, int id) {
    NoDesc *cursor_1 = ld->prim;
    NoDup *cursor_2 = NULL;
 
-   for (cursor_1; cursor_1 != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
+   for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
       printf("\nERR: Filme para iniciar sequencia nao encontrado!");
@@ -59,7 +59,7 @@ void imprimirFilmesDup(struct descritor *ld, int id) {
 
    NoDesc *cursor_1 = ld->prim;
 
-   for (cursor_1; cursor_1 != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
+   for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
       printf("\nERR: Filme para iniciar sequencia nao encontrado!");
@@ -98,7 +98,7 @@ void removerFilmeDup(struct descritor *ld, int id) {
 
    NoDesc *cursor_1 = ld->prim;
    
-   for (cursor_1; cursor_1 != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
+   for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
       printf("\nERR: Filme para iniciar sequencia nao encontrado!");
