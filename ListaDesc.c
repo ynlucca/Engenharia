@@ -4,6 +4,7 @@
 
 #include "ListaDesc.h"
 #include "Filme.h"
+#include "ListaDup.h"
 
 Descritor criarDescritor(){
    Descritor d;
@@ -22,7 +23,7 @@ void inserirFilmeDesc(Descritor *ld){
    Filme *filmeTemp = leFilme();
 
    //Percorre a Lista Descritora até cursor ser nulo (fim da lista), ou até achar um nó cujo filme seja "alfabeticamente" superior ao filme filmeTemp (filmeTemp->nomeFilme < cursor->filme->nomeFilme)
-   while(cursor != NULL && (strcmp(filmeTemp->nomeFilme, cursor->info->nomeFilme) == -1))
+   while(cursor != NULL && (strcmp(filmeTemp->nomeFilme, cursor->info->nomeFilme) > 0))
    {
       ant = cursor;
       cursor = cursor->prox;  
@@ -45,7 +46,7 @@ void inserirFilmeDesc(Descritor *ld){
 
 void alterarFilmeDesc(Descritor *ld, int id) {
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -54,11 +55,10 @@ void alterarFilmeDesc(Descritor *ld, int id) {
 
    NoDesc *cursor_1 = ld->prim;
    NoDup *cursor_2 = NULL;
-   
+
    for (cursor_1; cursor_1 != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox) {
-      printf("Cur1: %d", cursor_1->info->idFilme);
       if (cursor_1->info->seqFilme != NULL) {
-            cursor_2 = cursor_1->info->seqFilme;
+         cursor_2 = cursor_1->info->seqFilme;
          for (cursor_2; cursor_2 != NULL && cursor_2->info->idFilme != id; cursor_2 = cursor_2->prox) {
             if (cursor_2->info->idFilme == id) {
                alterarNome(cursor_2->info);
@@ -67,6 +67,14 @@ void alterarFilmeDesc(Descritor *ld, int id) {
             }
          }
       }
+   }
+
+   if (cursor_1 == NULL) {
+      printf("\nERR: Filme nao encontrado!\n");
+      setbuf(stdin, NULL);
+      printf("\nPressione algo para continuar...");
+      getchar();
+      return;
    }
 
    if (cursor_1->info->idFilme == id) {
@@ -78,7 +86,7 @@ void alterarFilmeDesc(Descritor *ld, int id) {
 
 void imprimirFilmesDesc(Descritor* ld){
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -113,7 +121,7 @@ void imprimirFilmesDesc(Descritor* ld){
 
 void removerFilmeDesc(Descritor *ld, int id){
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -124,19 +132,32 @@ void removerFilmeDesc(Descritor *ld, int id){
    NoDesc *ant = NULL;
 
    //Loop de busca para o nó desejado
-   while((cursor->info->idFilme != id) && (cursor != NULL))
-   {
+   for (cursor; cursor != NULL && cursor->info->idFilme != id; cursor = cursor->prox) {
       ant = cursor;
-      cursor = cursor->prox;    
    }
 
    //Caso o cursor chegue ao final da lista sem encontrar o nó desejado
    if(cursor == NULL)
    {
-      printf("\nElemento nao encontrado\n");
+      printf("\nERR: Elemento nao encontrado!\n");
+      printf("\nPressione algo para continuar...");
+      setbuf(stdin, NULL);
+      getchar();
+      return;
    }
    else
    {
+      //Liberando os filmes da sequência
+      if(cursor->info->seqFilme != NULL){
+         NoDup* franq = cursor->info->seqFilme;
+         NoDup* aux = NULL;
+         while(franq != NULL){
+            aux = franq->prox;
+            free(franq);
+            franq = aux;
+         }   
+      }
+      
       //Caso o nó desejado seja o primeiro da lista
       if(ant == NULL)
       {

@@ -14,7 +14,7 @@ int main() {
       system("clear");
 
       printf(
-         "Trabalho de ED // Yan & Rafael\n"
+         "Trabalho de ED // Yan L. & Rafael W.\n"
          "[1] Inserir um novo filme\n"
          "[2] Alterar os dados de um filme\n"
          "[3] Remover um filme\n"

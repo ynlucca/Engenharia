@@ -12,7 +12,7 @@ int estaVaziaDup(NoDup *nd) {
 
 void inserirFilmeDup(struct descritor *ld, int id) {
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -25,7 +25,7 @@ void inserirFilmeDup(struct descritor *ld, int id) {
    for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
-      printf("\nERR: Filme para iniciar sequencia nao encontrado!");
+      printf("\nERR: Filme para iniciar sequencia nao encontrado!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -46,11 +46,13 @@ void inserirFilmeDup(struct descritor *ld, int id) {
       novo->prox = NULL;
       novo->ant = cursor_2;
    }
+
+   ld->n++;
 }
 
 void imprimirFilmesDup(struct descritor *ld, int id) {
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -62,7 +64,7 @@ void imprimirFilmesDup(struct descritor *ld, int id) {
    for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
-      printf("\nERR: Filme para iniciar sequencia nao encontrado!");
+      printf("\nERR: Filme para iniciar sequencia nao encontrado!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -89,7 +91,7 @@ void imprimirFilmesDup(struct descritor *ld, int id) {
 
 void removerFilmeDup(struct descritor *ld, int id) {
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -101,7 +103,7 @@ void removerFilmeDup(struct descritor *ld, int id) {
    for (cursor_1; cursor_1->prox != NULL && cursor_1->info->idFilme != id; cursor_1 = cursor_1->prox);
 
    if (cursor_1->info->idFilme != id || cursor_1 == NULL) {
-      printf("\nERR: Filme para iniciar sequencia nao encontrado!");
+      printf("\nERR: Filme para iniciar sequencia nao encontrado!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -124,6 +126,14 @@ void removerFilmeDup(struct descritor *ld, int id) {
    printf("\nDigite o ID da continuacao para que seja deletada: ");
    scanf("%d", &idCont);
 
+   if (cursor_1->info->idFilme == idCont) {
+      printf("\nNa moral?\nERR: Nao pode deletar o proprio filme!\n");
+      setbuf(stdin, NULL);
+      printf("\nPressione algo para continuar...");
+      getchar();
+      return;
+   }
+
    cursor_2 = cursor_1->info->seqFilme;
    NoDup *aux = NULL;
    for (cursor_2; cursor_2->prox != NULL && cursor_2->info->idFilme != idCont; cursor_2 = cursor_2->prox) {
@@ -131,7 +141,7 @@ void removerFilmeDup(struct descritor *ld, int id) {
    }
 
    if (cursor_2->info->idFilme != idCont || cursor_2 == NULL) {
-      printf("\nERR: Nao ha continuacao com esse ID!");
+      printf("\nERR: Nao ha continuacao com esse ID!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -151,11 +161,12 @@ void removerFilmeDup(struct descritor *ld, int id) {
    }
 
    free(cursor_2);
+   ld->n--;
 }
 
 void imprimirAntDup(struct descritor *ld, int id) {
    if(estaVaziaDesc(ld)) { //Checar se a lista esta vazia!
-      printf("\nERR: Lista vazia!");
+      printf("\nERR: Lista vazia!\n");
       setbuf(stdin, NULL);
       printf("\nPressione algo para continuar...");
       getchar();
@@ -165,12 +176,11 @@ void imprimirAntDup(struct descritor *ld, int id) {
    NoDesc *cursor_1 = ld->prim;
    NoDup *cursor_2 = NULL;
 
-   printf("\n");
    //Percorre toda a lista
    for(cursor_1; cursor_1 != NULL; cursor_1 = cursor_1->prox)
    {
       if (cursor_1->info->idFilme == id) {
-         printf("\nO filme < %s > nao possui anterior...", cursor_1->info->nomeFilme);
+         printf("\nERR: O filme < %s > nao possui anterior...\n", cursor_1->info->nomeFilme);
          setbuf(stdin, NULL);
          printf("\nPressione algo para continuar...");
          getchar();
@@ -192,6 +202,14 @@ void imprimirAntDup(struct descritor *ld, int id) {
       }
    }
 
+   if (cursor_1 == NULL) {
+      printf("\nFilme nao encontrado!\n");
+      setbuf(stdin, NULL);
+      printf("\nPressione algo para continuar...");
+      getchar();
+      return;
+   }
+
    setbuf(stdin, NULL);
    printf("\nPressione algo para continuar...");
    getchar();
@@ -209,20 +227,27 @@ void imprimirSucDup(struct descritor *ld, int id) {
    NoDesc *cursor_1 = ld->prim;
    NoDup *cursor_2 = NULL;
 
-   printf("\n");
    //Percorre toda a lista
    for(cursor_1; cursor_1 != NULL; cursor_1 = cursor_1->prox)
    {
       if (cursor_1->info->idFilme == id) {
-         printf("Sucessor:\n");
-         imprimeFilme(cursor_1->info->seqFilme->info);
+         if (cursor_1->prox == NULL) {
+            printf("\nERR: O filme < %s > nao possui sucessor...\n", cursor_1->info->nomeFilme);
+            setbuf(stdin, NULL);
+            printf("\nPressione algo para continuar...");
+            getchar();
+            return;
+         } else {
+            printf("Sucessor:\n");
+            imprimeFilme(cursor_1->info->seqFilme->info);
+         }
       }
       if (cursor_1->info->seqFilme != NULL) {
          cursor_2 = cursor_1->info->seqFilme;
          for (cursor_2; cursor_2 != NULL; cursor_2 = cursor_2->prox) {
             if (cursor_2->info->idFilme == id) {
                if (cursor_2->prox == NULL) {
-                  printf("\nO filme < %s > nao possui sucessor...", cursor_2->info->nomeFilme);
+                  printf("\nO filme < %s > nao possui sucessor...\n", cursor_2->info->nomeFilme);
                   setbuf(stdin, NULL);
                   printf("\nPressione algo para continuar...");
                   getchar();
@@ -234,6 +259,10 @@ void imprimirSucDup(struct descritor *ld, int id) {
             }
          }
       }
+   }
+
+   if (cursor_1 == NULL) {
+      printf("\nERR: Filme nao encontrado!\n");
    }
 
    setbuf(stdin, NULL);
