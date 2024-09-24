@@ -3,20 +3,38 @@
 
 #include "Filme.h"
 
-typedef struct filme Filme;
+//Estrutura do nó da lista descritora
+typedef struct noDesc {
+   struct filme *info;
+   struct noDesc *prox;
+} NoDesc;
 
-typedef struct noDesc NoDesc;
+//Estrutura da lista descritora
+typedef struct descritor {
+   NoDesc *prim;
+   int n;
+   NoDesc *ult;
+} Descritor;
 
-typedef struct descritor Descritor;
+//Função que retorna um descritor vazio
+Descritor criarDescritor();
 
-Descritor criarLista();
+//Função que verifica se um descritor está vazio
+int estaVaziaDesc(Descritor *ld);
 
-int estaVazia(Descritor *ld);
+//Função de inserção na lista descritora
+void inserirFilmeDesc(Descritor *ld);
 
-void inserirFilme(Descritor *ld);
+//Função de inserção na lista descritora para arquivo
+void inserirFilmeDescFile(Descritor *ld, struct filme *filmeTemp);
 
-void imprimirListaFilmes(Descritor* ld);
+//Função que permite a alteração de um filme da lista
+void alterarFilmeDesc(Descritor *ld, int id);
 
-void removerFilme(Descritor *ld, Filme *f);
+//Função que permite exibir todos os filmes salvos na lista
+void imprimirFilmesDesc(Descritor* ld);
+
+//Função para remover um filme da lista
+void removerFilmeDesc(Descritor *ld, int id);
 
 #endif
